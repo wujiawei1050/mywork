@@ -1,0 +1,74 @@
+<html>
+ <head>
+  <style>
+    span{
+         position:absolute; 
+         color: red
+        }
+  </style>
+ </head>
+ <body id="body" onmousedown="getXY(event)" onmouseup="getR(event)" onkeydown="cancel()" >
+ </body>
+ <script type="text/javascript" >
+      var a,b,r;
+      function draw(r, a, b) {     //画圆
+        {
+                    var x, y;
+                    for(var i = 0; i < 3600; i += 1) {               //原理是根据一个一个span内的点 画出圆
+                    x = Math.cos(i) * r + a;
+                    y = Math.sin(i) * r + b;
+                    var doc = document.createElement('span');         //创建span节点
+                    doc.appendChild(document.createTextNode('.'));    //给span节点添加内容
+                    document.body.appendChild(doc);                   //把span节点附加到body节点下
+                    doc.style.left = x + 'px';                        //span的位置
+                    doc.style.top = y + 'px';
+                }        
+            
+        }
+    };
+    function draw1(r, a, b) {   //画圆(与上面不同的是这个方法效率循环次数小,便于画轨迹)
+        {
+                    var x, y;
+                    for(var i = 0; i < 360; i += 1) {
+                    x = Math.cos(i) * r + a;
+                    y = Math.sin(i) * r + b;
+                    var doc = document.createElement('span');
+                    doc.appendChild(document.createTextNode('.'));
+                    document.body.appendChild(doc);
+                    doc.style.left = x + 'px';
+                    doc.style.top = y + 'px';
+                }        
+            
+        }
+    };
+ 
+    function getXY(event){     //鼠标按下事件
+        document.body.onmousemove=function orbit(event){     //重新给鼠标移动事件 赋 画轨迹方法
+           cancel();
+           a2=event.clientX;
+           b2=event.clientY;
+           r1=Math.sqrt((a2-a)*(a2-a)+(b2-b)*(b2-b));
+           draw1(r1, a2, b2);
+        };
+
+        if(event.button==0){         //获取鼠标按下坐标
+           a=event.clientX;          
+           b=event.clientY;
+        }
+    }; 
+    
+    function getR(event){       //鼠标抬起方法
+        document.body.onmousemove=function(){};   //给鼠标移动事件置空
+        cancel();                                 //清除body元素内容   主要是清除轨迹
+        a1=event.clientX;        //获取鼠标抬起坐标
+        b1=event.clientY;
+        r=Math.sqrt((a1-a)*(a1-a)+(b1-b)*(b1-b));  //根据按下 抬起 计算 圆半径
+        draw(r, a1, b1);                           //调用画圆方法
+    }
+    function cancel(){             //清除body元素 方法
+        document.getElementById('body').innerHTML = '';
+    }
+
+    
+ </script>
+</html>
