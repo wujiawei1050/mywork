@@ -28,32 +28,7 @@
 	<context:component-scan base-package="controller" />
 
 
-<bean id="spleepPointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
-  <property name="pattern" value=".*sleep"/>
-</bean>
 
-<bean id="sleepHelperAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
-     <property name="advice" ref="SleepHelper"/>
-     <property name="pointcut" ref="sleepPointcut"/>
-</bean>
-	
-	<!-- 定义切点的常用的两种方式：1)使用正则表达式 2)使用AspectJ表达式，这里用正则表达式 -->
-	<bean id="Human" class="serviceAop.Human"></bean>
-
-<bean id="SleepHelper" class="serviceAop.SleepHelper"></bean>
-
-
-
-
-<!-- 代理对象 
-ProxyFactoryBean是一个代理，我们可以把它转换为
-proxyInterfaces中指定的实现该interface的代理对象
--->
-      <bean id="serviceProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
-      
-        <property name="target" ref="Human"></property>
-       <property name="interceptorNames" value="BeforAdvisor"></property>
-       </bean>
 	
 	
 	
